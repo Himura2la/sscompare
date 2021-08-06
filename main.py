@@ -20,8 +20,8 @@ class SSTime(object):
         self.week_day = week_day
 
     def __str__(self):
-        time = format(self.time, "09,.2f").replace(",", "'")
-        return f'{self.year}-{self.month}-{self.day:02d} {time}'
+        time = format(self.time, "08,.1f").replace(",", "'")
+        return f'{self.week_day} {self.year}-{self.month}-{self.day:02d} {time}'
 
     @classmethod
     def convert(cls, std_time: datetime):
@@ -39,7 +39,7 @@ class SSTime(object):
 
 
 def compare(std_time: datetime, now=False):
-    std_time_string = std_time.astimezone(tz=None).isoformat(sep=' ', timespec='seconds')
+    std_time_string = std_time.astimezone(tz=None).strftime('%w %Y-%m-%d %H:%M:%S')
     print(f"{std_time_string} {'*' if now else '|'} {SSTime.convert(std_time)}")
 
 

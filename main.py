@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
 import os
+import sys
 import json
-from math import floor
+from argparse import ArgumentParser
 from datetime import datetime, timedelta, timezone
 from subprocess import check_output
 
@@ -20,7 +21,7 @@ class SSTime(object):
 
     def __str__(self):
         time = format(self.time, "09,.2f").replace(",", "'")
-        return f'{self.year}-{self.month}-{self.day} {time}'
+        return f'{self.year}-{self.month}-{self.day:02d} {time}'
 
     @classmethod
     def convert(cls, std_time: datetime):
@@ -39,7 +40,7 @@ class SSTime(object):
 
 def compare(std_time: datetime, now=False):
     std_time_string = std_time.astimezone(tz=None).isoformat(sep=' ', timespec='seconds')
-    print(f"{std_time_string}\t{'*' if now else '|'}\t{SSTime.convert(std_time)}")
+    print(f"{std_time_string} {'*' if now else '|'} {SSTime.convert(std_time)}")
 
 
 def delta(amount: int, unit: str):
@@ -56,13 +57,22 @@ def delta(amount: int, unit: str):
 
 
 if __name__ == "__main__":
-    delta_amount = 1
-    delta_unit = 'h'
-    spread = 15
+    parser = ArgumentParser(description='https://sssecond.com')
+    parser.add_argument('step', nargs=1, help='Step size')
+    parser.add_argument('unit',
+                        nargs=1,
+                        choices=['W', 'D', 'h', 'm', 's'],
+                        help='Step unit (weeks, days, hours, minutes, seconds)')
+    parser.add_argument('spread', nargs=1, help='Number of steps')
+    config = parser.parse_args(sys.argv[1:])
+
+    spread = int(config.spread[0])
+    step = int(config.step[0])
+    unit = config.unit[0]
 
     base = datetime.utcnow().replace(tzinfo=timezone.utc)
     for i in range(-spread // 2, 0):
-        compare(base + delta(delta_amount * i, delta_unit))
+        compare(base + delta(step * i, unit))
     compare(base, now=True)
     for i in range(1, spread // 2 + 1):
-        compare(base + delta(delta_amount * i, delta_unit))
+        compare(base + delta(step * i, unit))

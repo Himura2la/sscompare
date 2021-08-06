@@ -1,0 +1,3 @@
+[submodule "simple-second"]
+	path = simple-second
+	url = git@github.com:fakt309/simple-second.git

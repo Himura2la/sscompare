@@ -44,9 +44,9 @@ def compare(std_time: datetime, now=False):
 
 
 def delta(amount: int, unit: str):
-    if unit == 'W':
+    if unit == 'w':
         return timedelta(weeks=amount)
-    if unit == 'D':
+    if unit == 'd':
         return timedelta(days=amount)
     elif unit == 'h':
         return timedelta(hours=amount)
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     parser.add_argument('step', nargs=1, help='Step size')
     parser.add_argument('unit',
                         nargs=1,
-                        choices=['W', 'D', 'h', 'm', 's'],
+                        choices=['w', 'd', 'h', 'm', 's'],
                         help='Step unit (weeks, days, hours, minutes, seconds)')
     parser.add_argument('spread', nargs=1, help='Number of steps')
     config = parser.parse_args(sys.argv[1:])

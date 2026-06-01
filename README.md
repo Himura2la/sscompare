@@ -1,6 +1,6 @@
 # Compare Simple-second Time with Common Time
 
-> Read more about the project here: https://sssecond.com
+> Read more about the project here: <https://web.archive.org/web/20251013072428/https://habr.com/ru/articles/569410/>
 
 ## Requirements
 
